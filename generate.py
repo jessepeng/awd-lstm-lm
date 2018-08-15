@@ -10,7 +10,7 @@ import argparse
 import torch
 from torch.autograd import Variable
 
-import data
+from awd_lstm_lm import data
 
 parser = argparse.ArgumentParser(description='PyTorch PTB Language Model')
 

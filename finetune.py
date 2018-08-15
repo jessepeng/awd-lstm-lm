@@ -1,16 +1,18 @@
 import argparse
-import time
 import math
+import time
+
 import numpy as np
+
 np.random.seed(331)
 import torch
 import torch.nn as nn
 
-import data
-import model
-from splitcross import SplitCrossEntropyLoss
+from awd_lstm_lm import data
+from awd_lstm_lm import model
+from awd_lstm_lm.splitcross import SplitCrossEntropyLoss
 
-from utils import batchify, get_batch, repackage_hidden
+from awd_lstm_lm.utils import batchify, get_batch, repackage_hidden
 
 parser = argparse.ArgumentParser(description='PyTorch PennTreeBank RNN/LSTM Language Model')
 parser.add_argument('--data', type=str, default='data/penn/',
