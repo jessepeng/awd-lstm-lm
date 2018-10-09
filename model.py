@@ -65,7 +65,7 @@ class RNNModel(nn.Module):
         self.dropouth = dropouth
         self.dropoute = dropoute
         self.tie_weights = tie_weights
-        self.bidirectional = bidirectional
+        self.is_bidirectional = bidirectional
 
     def reset(self):
         if self.rnn_type == 'QRNN': [r.reset() for r in self.rnns]
@@ -108,12 +108,12 @@ class RNNModel(nn.Module):
     def init_hidden(self, bsz):
         weight = next(self.parameters()).data
         if self.rnn_type == 'LSTM':
-            return [(weight.new(1 if not self.bidirectional else 2, bsz, self.nhid if l != self.nlayers - 1 else (
+            return [(weight.new(1 if not self.is_bidirectional else 2, bsz, self.nhid if l != self.nlayers - 1 else (
                 self.ninp if self.tie_weights else self.nhid)).zero_(),
-                     weight.new(1 if not self.bidirectional else 2, bsz, self.nhid if l != self.nlayers - 1 else (
+                     weight.new(1 if not self.is_bidirectional else 2, bsz, self.nhid if l != self.nlayers - 1 else (
                          self.ninp if self.tie_weights else self.nhid)).zero_())
                     for l in range(self.nlayers)]
         elif self.rnn_type == 'QRNN' or self.rnn_type == 'GRU':
-            return [weight.new(1 if not self.bidirectional else 2, bsz, self.nhid if l != self.nlayers - 1 else (
+            return [weight.new(1 if not self.is_bidirectional else 2, bsz, self.nhid if l != self.nlayers - 1 else (
                 self.ninp if self.tie_weights else self.nhid)).zero_()
                     for l in range(self.nlayers)]
