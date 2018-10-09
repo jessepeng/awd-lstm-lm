@@ -21,7 +21,7 @@ class RNNModel(nn.Module):
         if rnn_type == 'LSTM':
             self.rnns = [
                 torch.nn.LSTM(
-                    ninp if not bidirectional else 2 * ninp if l == 0 else nhid if not bidirectional else 2 * nhid,
+                    (ninp if not bidirectional else 2 * ninp) if l == 0 else (nhid if not bidirectional else 2 * nhid),
                     nhid if l != nlayers - 1 else (ninp if tie_weights else nhid),
                     1, dropout=0, bidirectional=bidirectional) for l in range(nlayers)]
             if wdrop:
