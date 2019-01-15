@@ -105,6 +105,9 @@ class RNNModel(nn.Module):
             return result, hidden, raw_outputs, outputs
         return result, hidden
 
+    def get_output_dim(self):
+        return self.ninp
+
     def init_hidden(self, bsz):
         weight = next(self.parameters()).data
         if self.rnn_type == 'LSTM':
