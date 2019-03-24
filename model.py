@@ -110,13 +110,14 @@ class RNNModel(nn.Module):
 
     def init_hidden(self, bsz):
         weight = next(self.parameters()).data
+        bidirectional = hasattr(self, "is_bidirectional") and self.is_bidirectional
         if self.rnn_type == 'LSTM':
-            return [(weight.new(1 if not self.is_bidirectional else 2, bsz, self.nhid if l != self.nlayers - 1 else (
+            return [(weight.new(1 if not bidirectional else 2, bsz, self.nhid if l != self.nlayers - 1 else (
                 self.ninp if self.tie_weights else self.nhid)).zero_(),
-                     weight.new(1 if not self.is_bidirectional else 2, bsz, self.nhid if l != self.nlayers - 1 else (
+                     weight.new(1 if not bidirectional else 2, bsz, self.nhid if l != self.nlayers - 1 else (
                          self.ninp if self.tie_weights else self.nhid)).zero_())
                     for l in range(self.nlayers)]
         elif self.rnn_type == 'QRNN' or self.rnn_type == 'GRU':
-            return [weight.new(1 if not self.is_bidirectional else 2, bsz, self.nhid if l != self.nlayers - 1 else (
+            return [weight.new(1 if not bidirectional else 2, bsz, self.nhid if l != self.nlayers - 1 else (
                 self.ninp if self.tie_weights else self.nhid)).zero_()
                     for l in range(self.nlayers)]
